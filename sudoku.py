@@ -1,6 +1,10 @@
 class Sudoku:
     def __init__(self):
         self.puzzle = []
+        self.create_or_reset()
+
+    def create_or_reset(self):
+        self.puzzle = []
         for _ in range(9):
             self.puzzle.append([0]*9)
 
