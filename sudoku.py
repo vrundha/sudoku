@@ -8,9 +8,6 @@ class Sudoku:
         for _ in range(9):
             self.puzzle.append([0]*9)
 
-    def create_or_reset(self):
-        pass
-
 
 if __name__ == "__main__":
     s = Sudoku()
