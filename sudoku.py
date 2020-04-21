@@ -86,12 +86,6 @@ class Solver:
 
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     sud = Sudoku()
     sud.generate(20)
