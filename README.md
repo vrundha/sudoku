@@ -53,3 +53,6 @@ Here we used stable-baselines3 for this
 ```bash
 python dqn_sudoku.py --train
 ```
+
+# Notebook
+You can use the starter jupyter [notebook](sudoku.ipynb) here. 
