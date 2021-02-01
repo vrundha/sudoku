@@ -1,13 +1,11 @@
 import random
 import copy
 from typing import Any, Union
-
+import numpy as np
 
 class Sudoku:
     def __init__(self):
-        self.puzzle = []
-        for _ in range(9):
-            self.puzzle.append([0] * 9)
+        self.puzzle = np.zeros((9, 9), dtype=int)
 
     def generate(self, n=10):
         for _ in range(n):
@@ -40,10 +38,9 @@ class Sudoku:
         number_found = self.check_if_number_ok(i, j, number)
         return number if number_found else self.__fill_cell_with_random(i,j)
 
-
     def visualize(self):
-        for i in self.puzzle:
-            print(i)
+        print(self.puzzle)
+
 
 class Solver:
     def __init__(self, sud: Sudoku):
@@ -79,11 +76,8 @@ class Solver:
                 else:
                     return self.solve(state, i, j + 1)
 
-
         if not number_found:
             return False, state
-
-
 
 
 if __name__ == "__main__":
@@ -97,7 +91,8 @@ if __name__ == "__main__":
     solvable, solution = solv.solve(sud)
     if solvable:
         solution.visualize()
-
+    else:
+        print("Not solvable")
 
     assert len(sud.puzzle) == 9
     assert len(sud.puzzle[0]) == 9

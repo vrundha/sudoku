@@ -1,3 +1,4 @@
 ipysheet
 numpy
 jupyter
+gym
