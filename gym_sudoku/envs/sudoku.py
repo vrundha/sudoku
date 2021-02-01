@@ -4,11 +4,14 @@ from typing import Any, Union
 import numpy as np
 
 class Sudoku:
-
     def __init__(self):
         self.puzzle = np.zeros((9, 9), dtype=int)
 
     def generate(self, n=10):
+        """
+        Generates a sudoku puzzle
+        :param n: number of cells in the puzzle that has to be filled
+        """
         for _ in range(n):
             i, j = self.__get_unfilled_cell()
             self.puzzle[i][j] = self.__fill_cell_with_random(i, j)
@@ -18,6 +21,13 @@ class Sudoku:
         return (i, j) if self.puzzle[i][j] == 0 else self.__get_unfilled_cell()
 
     def check_if_number_ok(self, i, j, number):
+        """
+        Checks if the number can be added at the index
+        :param i: row index
+        :param j: column index
+        :param number: number to be added
+        :return: boolean
+        """
         number_ok = True
 
         for ind in range(9):
@@ -43,60 +53,9 @@ class Sudoku:
         raise RuntimeError("Couldn't fill. Generated an incorrect sudoku puzzle")
 
     def visualize(self):
+        """
+        Prints the puzzle in a readable format
+        """
         print(self.puzzle)
 
 
-class Solver:
-    def __init__(self, sud: Sudoku):
-        self.sud = sud
-
-    def solve(self, state: Sudoku, i=0, j=0):
-
-        number_found = False
-
-        for number in range(1, 10):
-            if state.puzzle[i][j] == 0:
-                if self.sud.check_if_number_ok(i, j, number):
-                    number_found = True
-                    state.puzzle[i][j] = number
-                    if i == 8 and j == 8:
-                        return True, state
-                    elif j == 8:
-                        solvable, ret_state = self.solve(state, i+1, 0)
-                    else:
-                        solvable, ret_state = self.solve(state, i, j+1)
-                    if not solvable:
-                        number_found = False
-                        state.puzzle[i][j] = 0
-                        continue
-                    else:
-                        return True, ret_state
-            else:
-                number_found = True
-                if i == 8 and j == 8:
-                    return True, state
-                elif j == 8:
-                    return self.solve(state, i + 1, 0)
-                else:
-                    return self.solve(state, i, j + 1)
-
-        if not number_found:
-            return False, state
-
-
-if __name__ == "__main__":
-    sud = Sudoku()
-    sud.generate(20)
-    sud.visualize()
-
-    print("\n\n")
-
-    solv = Solver(sud)
-    solvable, solution = solv.solve(sud)
-    if solvable:
-        solution.visualize()
-    else:
-        print("Not solvable")
-
-    assert len(sud.puzzle) == 9
-    assert len(sud.puzzle[0]) == 9
