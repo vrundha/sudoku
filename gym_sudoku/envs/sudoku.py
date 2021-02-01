@@ -4,6 +4,7 @@ from typing import Any, Union
 import numpy as np
 
 class Sudoku:
+
     def __init__(self):
         self.puzzle = np.zeros((9, 9), dtype=int)
 
@@ -34,9 +35,12 @@ class Sudoku:
         return number_ok
 
     def __fill_cell_with_random(self, i, j):
-        number = random.randint(1, 9)
-        number_found = self.check_if_number_ok(i, j, number)
-        return number if number_found else self.__fill_cell_with_random(i,j)
+        numbers = list(range(1, 10))
+        random.shuffle(numbers)
+        for number in numbers:
+            if self.check_if_number_ok(i, j, number):
+                return number
+        raise RuntimeError("Couldn't fill. Generated an incorrect sudoku puzzle")
 
     def visualize(self):
         print(self.puzzle)
